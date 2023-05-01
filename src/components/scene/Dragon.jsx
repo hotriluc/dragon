@@ -14,10 +14,8 @@ const Dragon = (props) => {
     actions["Legs Action"].setLoop(THREE.LoopOnce);
     actions["Key.001Action.001"].setLoop(THREE.LoopOnce);
     actions["Key.002Action"].setLoop(THREE.LoopOnce);
-
     void actions["Head Action"].play();
     void actions["Legs Action"].play();
-
     void actions["Key.001Action.001"].play();
     void actions["Key.002Action"].play();
   }, []);
@@ -41,13 +39,13 @@ const Dragon = (props) => {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <Mask id={1} colorWrite scale={5} position={[0, 0, 0]}>
-        <planeGeometry />
+      <Mask id={1} colorWrite scale={3} position={[0, 2, 0]}>
+        <circleGeometry />
         <meshBasicMaterial color={"red"} />
       </Mask>
 
-      <Mask id={2} colorWrite scale={5} position={[0, 0, 2]}>
-        <planeGeometry />
+      <Mask id={2} colorWrite scale={3} position={[0, 0, 3]}>
+        <circleGeometry />
         <meshBasicMaterial color={"blue"} />
       </Mask>
       <group name="Scene">
