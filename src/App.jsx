@@ -20,7 +20,7 @@ const App = () => {
   return (
     <>
       <Overlay />
-      <Canvas camera={{ position: [-5.5, 1.5, 9] }}>
+      <Canvas shadows camera={{ position: [-5.5, 1.5, 9] }}>
         {/* <Perf /> */}
         <OrbitControls />
         <ambientLight />
