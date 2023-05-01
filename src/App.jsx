@@ -1,9 +1,16 @@
 import { Canvas, extend } from "@react-three/fiber";
 import Overlay from "./components/overlay/Overlay";
-import { shaderMaterial } from "@react-three/drei";
+import {
+  Center,
+  OrbitControls,
+  ScrollControls,
+  shaderMaterial,
+} from "@react-three/drei";
 
 import moveShaderFragment from "./shaders/move/fragment.glsl";
 import moveShaderVertex from "./shaders/move/vertex.glsl";
+import Dragon from "./components/scene/Dragon";
+import { Perf } from "r3f-perf";
 
 const MoveMaterial = shaderMaterial({}, moveShaderVertex, moveShaderFragment);
 
@@ -13,11 +20,12 @@ const App = () => {
   return (
     <>
       <Overlay />
-      <Canvas>
-        <mesh>
-          <planeGeometry />
-          <moveMaterial />
-        </mesh>
+      <Canvas camera={{ position: [4, 0, 7] }}>
+        {/* <Perf /> */}
+        <OrbitControls />
+        <ambientLight />
+        <directionalLight />
+        <Dragon />
       </Canvas>
     </>
   );
