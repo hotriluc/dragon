@@ -1,5 +1,9 @@
+uniform vec3 uColor;
 uniform float uTime;
+
 varying vec2 vUv;
+
+
 
 varying float vOffsetX; 
 
@@ -22,17 +26,17 @@ varying float vOffsetX;
 
   void main() {
     vec2 st = vUv;
-    
 
-    vec3 color = vec3(0.0);
-    st *= 10.0;      // Scale up the space by 3
+    vec3 color = vec3(0.);
 
-    st.x += vOffsetX ;
-   
+    // interpolation
+    vec3 pct = vec3(1. - st.y );
 
-    st = fract(st ) ; // Wrap around 1.0
 
-    color = vec3(circle(st,0.3));
+
+    color = mix(uColor, color, pct);
+
+
 
 
    gl_FragColor = vec4(color, 1.0);

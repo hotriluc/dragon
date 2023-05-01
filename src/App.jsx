@@ -4,27 +4,25 @@ import {
   Center,
   OrbitControls,
   ScrollControls,
+  SoftShadows,
   shaderMaterial,
 } from "@react-three/drei";
 
-import moveShaderFragment from "./shaders/move/fragment.glsl";
-import moveShaderVertex from "./shaders/move/vertex.glsl";
 import Dragon from "./components/scene/Dragon";
 import { Perf } from "r3f-perf";
-
-const MoveMaterial = shaderMaterial({}, moveShaderVertex, moveShaderFragment);
-
-extend({ MoveMaterial });
+import Lighting from "./components/scene/Lighting";
 
 const App = () => {
   return (
     <>
       <Overlay />
-      <Canvas shadows camera={{ position: [-5.5, 1.5, 9] }}>
+      <Canvas camera={{ position: [-5.5, 1.5, 9] }}>
         {/* <Perf /> */}
         <OrbitControls />
-        <ambientLight />
-        <directionalLight />
+
+        {/* <SoftShadows size={100} focus={20} samples={8} /> */}
+        <Lighting />
+
         <Dragon />
       </Canvas>
     </>

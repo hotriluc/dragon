@@ -1,13 +1,40 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useGLTF, useAnimations, Mask, useMask } from "@react-three/drei";
+import {
+  useGLTF,
+  useAnimations,
+  Mask,
+  useMask,
+  shaderMaterial,
+} from "@react-three/drei";
 
 import * as THREE from "three";
 import { useControls } from "leva";
+
+import moonVertexShader from "../../shaders/moon/vertex.glsl";
+import moonFragmentShader from "../../shaders/moon/fragment.glsl";
+import { extend, useFrame } from "@react-three/fiber";
+
+const MoonMaterial = shaderMaterial(
+  {
+    uTime: 0.0,
+    uColor: new THREE.Color("red"),
+  },
+  moonVertexShader,
+  moonFragmentShader
+);
+extend({ MoonMaterial });
 
 const Dragon = (props) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("/dragon.glb");
   const { actions } = useAnimations(animations, group);
+
+  const redMoonMaterialRef = useRef();
+
+  useFrame((state) => {
+    redMoonMaterialRef.current.uTime = state.clock.getElapsedTime();
+    redMoonMaterialRef.current.needsUpdate = true;
+  });
 
   useEffect(() => {
     // actions["Head Action"].setLoop(THREE.LoopOnce);
@@ -34,7 +61,7 @@ const Dragon = (props) => {
   const stencil = useMask(1);
   const stencil2 = useMask(2);
 
-  // Mesh with this material will have stencil with red color
+  // Mesh with this material will be masked with stencil of red color
   const materiaRedMask = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -43,7 +70,7 @@ const Dragon = (props) => {
     []
   );
 
-  // Mesh with this material will have stencil with blue color
+  // Mesh with this material will be masked with stencil of blue color
   const materialBlueMask = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -60,15 +87,20 @@ const Dragon = (props) => {
 
   return (
     <group ref={group} {...props} dispose={null}>
+      {/* Masks red and blue 
+        we apply custom material to our geometry
+      */}
       <Mask id={1} colorWrite scale={3} position={[0, 2, 0]}>
         <circleGeometry />
-        <meshBasicMaterial color={redMaskColor} />
+        <moonMaterial ref={redMoonMaterialRef} />
       </Mask>
 
       <Mask id={2} colorWrite scale={3} position={[0, 0, 3]}>
         <circleGeometry />
-        <meshBasicMaterial color={blueMaskColor} />
+        <moonMaterial uColor={new THREE.Color("skyblue")} />
       </Mask>
+
+      {/* Dragoon */}
       <group name="Scene">
         <mesh
           name="Head"
@@ -196,7 +228,6 @@ const Dragon = (props) => {
         />
         <mesh
           name="Body_Spine"
-          castShadow
           geometry={nodes.Body_Spine.geometry}
           morphTargetDictionary={nodes.Body_Spine.morphTargetDictionary}
           morphTargetInfluences={nodes.Body_Spine.morphTargetInfluences}
