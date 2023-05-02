@@ -16,11 +16,11 @@ const App = () => {
   return (
     <>
       <Overlay />
-      <Canvas camera={{ position: [-5.5, 1.5, 9] }}>
+      <Canvas shadows camera={{ position: [-1.5, 2, 15] }}>
         {/* <Perf /> */}
         <OrbitControls />
 
-        {/* <SoftShadows size={100} focus={20} samples={8} /> */}
+        <SoftShadows size={60} focus={20} samples={8} />
         <Lighting />
 
         <Dragon />

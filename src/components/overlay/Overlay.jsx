@@ -7,7 +7,7 @@ const Overlay = () => {
         pointerEvents: "none",
         top: 0,
         left: 0,
-        color: "#101010",
+        color: "white",
         height: "100%",
         width: "100%",
         padding: "2rem",

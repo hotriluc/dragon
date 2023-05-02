@@ -57,7 +57,7 @@ const Dragon = (props) => {
   });
 
   const { hairColor, eyesColor, bodyColor } = useControls("dragon", {
-    hairColor: "#101010",
+    hairColor: "#ffffff",
     eyesColor: "yellow",
     bodyColor: "#ffffff",
   });
@@ -85,7 +85,7 @@ const Dragon = (props) => {
 
   // No mask applied to this material
   const materialNoMask = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#101010" }),
+    () => new THREE.MeshStandardMaterial({ color: "#ffffff" }),
     []
   );
 
@@ -241,14 +241,18 @@ const Dragon = (props) => {
           rotation={[0.27, -0.58, 0.19]}
         />
         <mesh
+          castShadow
+          receiveShadow
           name="Body_Spine"
           geometry={nodes.Body_Spine.geometry}
           morphTargetDictionary={nodes.Body_Spine.morphTargetDictionary}
           morphTargetInfluences={nodes.Body_Spine.morphTargetInfluences}
         >
-          <meshStandardMaterial side={THREE.DoubleSide} color={"#101010"} />
+          <meshStandardMaterial side={THREE.DoubleSide} />
         </mesh>
         <mesh
+          castShadow
+          receiveShadow
           name="Body"
           geometry={nodes.Body.geometry}
           material={materiaRedMask}

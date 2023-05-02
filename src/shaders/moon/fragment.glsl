@@ -41,19 +41,23 @@ float noise (in vec2 st) {
   void main() {
     vec2 st = vUv;
 
-    // scale coordinate system to see texture
+    // Move space
+    st += 100.;
+
+    // scale coordinate system
     vec2 pos = st * 3.;
 
-    // animate move it
-    pos.x += uTime * .7;
+    // animate move it uTime * .7
+    pos.x += uTime ;
 
     // calcuclate noise
-    float n = noise(pos );
+    float n = noise(pos + random(fract(st)));
+
+    // Return to previous coordinates
+    st -= 100.;
 
     // combine noise with color
     vec3 color = vec3(0. );
-  
-
     color =  n * mix(uBaseColor, uMixColor, vec3(.85 - st.y) );
 
 
