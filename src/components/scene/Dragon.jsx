@@ -14,6 +14,7 @@ import moonVertexShader from "../../shaders/moon/vertex.glsl";
 import moonFragmentShader from "../../shaders/moon/fragment.glsl";
 import { extend, useFrame } from "@react-three/fiber";
 import { subclip } from "three/src/animation/AnimationUtils";
+import { lerp } from "three/src/math/MathUtils";
 
 const MoonMaterial = shaderMaterial(
   {
@@ -31,14 +32,22 @@ const Dragon = (props) => {
   const { nodes, animations } = useGLTF("/dragon.glb");
   const { actions } = useAnimations(animations, group);
 
+  const redMaskRef = useRef();
+  const blueMaskRef = useRef();
   const redMoonMaterialRef = useRef();
   const blueMoonMaterialRef = useRef();
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const et = state.clock.getElapsedTime();
 
     redMoonMaterialRef.current.uTime = et;
     blueMoonMaterialRef.current.uTime = et;
+
+    redMaskRef.current.scale.x = lerp(redMaskRef.current.scale.x, 3.0, 0.02);
+    redMaskRef.current.scale.y = lerp(redMaskRef.current.scale.y, 3.0, 0.02);
+
+    blueMaskRef.current.scale.x = lerp(blueMaskRef.current.scale.x, 3.0, 0.02);
+    blueMaskRef.current.scale.y = lerp(blueMaskRef.current.scale.y, 3.0, 0.02);
   });
 
   useEffect(() => {
@@ -108,16 +117,17 @@ const Dragon = (props) => {
       {/* Masks red and blue 
         we apply custom material to our geometry
       */}
-      <Mask id={1} colorWrite scale={3} position={[0, 2, 0]}>
+      <Mask ref={redMaskRef} id={1} colorWrite scale={0} position={[0, 2, 0]}>
         <circleGeometry />
         <moonMaterial ref={redMoonMaterialRef} />
       </Mask>
 
       <Mask
+        ref={blueMaskRef}
         rotation={[0, 0, Math.PI]}
         id={2}
         colorWrite
-        scale={3}
+        scale={0}
         position={[0, 0, 3]}
       >
         <circleGeometry />

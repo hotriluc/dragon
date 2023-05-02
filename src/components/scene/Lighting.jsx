@@ -8,8 +8,8 @@ const Lighting = () => {
   const pointLightRef = useRef();
   const directionalLightRef = useRef();
 
-  useHelper(directionalLightRef, THREE.DirectionalLightHelper);
-  useHelper(pointLightRef, THREE.PointLightHelper);
+  // useHelper(directionalLightRef, THREE.DirectionalLightHelper);
+  // useHelper(pointLightRef, THREE.PointLightHelper);
 
   return (
     <>
