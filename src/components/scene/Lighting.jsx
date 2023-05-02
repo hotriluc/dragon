@@ -8,9 +8,8 @@ const Lighting = () => {
   const pointLightRef = useRef();
   const directionalLightRef = useRef();
 
-  const { color } = useControls({ color: "#70008c" });
-
   useHelper(directionalLightRef, THREE.DirectionalLightHelper);
+  useHelper(pointLightRef, THREE.PointLightHelper);
 
   return (
     <>
@@ -25,7 +24,7 @@ const Lighting = () => {
         shadow-camera-left={-15}
       ></directionalLight>
 
-      <ambientLight color={color} intensity={0.5} />
+      <ambientLight color={"#70008c"} intensity={0.5} />
     </>
   );
 };

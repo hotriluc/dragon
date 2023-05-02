@@ -13,6 +13,7 @@ import { useControls } from "leva";
 import moonVertexShader from "../../shaders/moon/vertex.glsl";
 import moonFragmentShader from "../../shaders/moon/fragment.glsl";
 import { extend, useFrame } from "@react-three/fiber";
+import { subclip } from "three/src/animation/AnimationUtils";
 
 const MoonMaterial = shaderMaterial(
   {
@@ -27,7 +28,7 @@ extend({ MoonMaterial });
 
 const Dragon = (props) => {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF("/dragon.glb");
+  const { nodes, animations } = useGLTF("/dragon.glb");
   const { actions } = useAnimations(animations, group);
 
   const redMoonMaterialRef = useRef();
@@ -41,20 +42,33 @@ const Dragon = (props) => {
   });
 
   useEffect(() => {
-    // actions["Head Action"].setLoop(THREE.LoopOnce);
-    // actions["Legs Action"].setLoop(THREE.LoopOnce);
-    // actions["Key.001Action.001"].setLoop(THREE.LoopOnce);
-    // actions["Key.002Action"].setLoop(THREE.LoopOnce);
-    // void actions["Head Action"].play();
-    // void actions["Legs Action"].play();
-    // void actions["Key.001Action.001"].play();
-    // void actions["Key.002Action"].play();
-  }, []);
+    actions["Head Action"].setLoop(THREE.LoopOnce);
+    actions["Legs Action"].setLoop(THREE.LoopOnce);
+    actions["Key.001Action.001"].setLoop(THREE.LoopOnce);
+    actions["Key.002Action"].setLoop(THREE.LoopOnce);
 
-  const { redMaskColor, blueMaskColor } = useControls("mask", {
-    redMaskColor: "red",
-    blueMaskColor: "blue",
-  });
+    // Subclip to stop animations bellow on specific frame
+    const spineClip = subclip(
+      actions["Key.001Action.001"]._clip,
+      "spineClip",
+      0,
+      300
+    );
+    actions["Key.001Action.001"]._clip = spineClip;
+
+    const bodyClip = subclip(
+      actions["Key.002Action"]._clip,
+      "bodyClip",
+      0,
+      300
+    );
+    actions["Key.002Action"]._clip = bodyClip;
+
+    void actions["Head Action"].play();
+    void actions["Legs Action"].play();
+    void actions["Key.001Action.001"].play();
+    void actions["Key.002Action"].play();
+  }, []);
 
   const { hairColor, eyesColor, bodyColor } = useControls("dragon", {
     hairColor: "#ffffff",
