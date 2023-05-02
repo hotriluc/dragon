@@ -17,7 +17,8 @@ import { extend, useFrame } from "@react-three/fiber";
 const MoonMaterial = shaderMaterial(
   {
     uTime: 0.0,
-    uColor: new THREE.Color("red"),
+    uBaseColor: new THREE.Color("#ff3145"),
+    uMixColor: new THREE.Color("blue"),
   },
   moonVertexShader,
   moonFragmentShader
@@ -30,10 +31,13 @@ const Dragon = (props) => {
   const { actions } = useAnimations(animations, group);
 
   const redMoonMaterialRef = useRef();
+  const blueMoonMaterialRef = useRef();
 
   useFrame((state) => {
-    redMoonMaterialRef.current.uTime = state.clock.getElapsedTime();
-    redMoonMaterialRef.current.needsUpdate = true;
+    const et = state.clock.getElapsedTime();
+
+    redMoonMaterialRef.current.uTime = et;
+    blueMoonMaterialRef.current.uTime = et;
   });
 
   useEffect(() => {
@@ -95,9 +99,19 @@ const Dragon = (props) => {
         <moonMaterial ref={redMoonMaterialRef} />
       </Mask>
 
-      <Mask id={2} colorWrite scale={3} position={[0, 0, 3]}>
+      <Mask
+        rotation={[0, 0, Math.PI]}
+        id={2}
+        colorWrite
+        scale={3}
+        position={[0, 0, 3]}
+      >
         <circleGeometry />
-        <moonMaterial uColor={new THREE.Color("skyblue")} />
+        <moonMaterial
+          ref={blueMoonMaterialRef}
+          uBaseColor={"#00c6ff"}
+          uMixColor={"magenta"}
+        />
       </Mask>
 
       {/* Dragoon */}
