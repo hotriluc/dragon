@@ -1,4 +1,4 @@
-import { Canvas, extend } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import Overlay from "./components/overlay/Overlay";
 import { OrbitControls, SoftShadows } from "@react-three/drei";
 
@@ -9,10 +9,8 @@ const App = () => {
   return (
     <>
       <Overlay />
-      <Canvas shadows camera={{ position: [-1.5, 2, 15] }}>
-        {/* <Perf /> */}
-
-        <OrbitControls />
+      <Canvas shadows camera={{ position: [-1.5, 2.5, 12] }}>
+        <OrbitControls zoomSpeed={0.5} />
 
         <SoftShadows size={60} focus={20} samples={8} />
         <Lighting />

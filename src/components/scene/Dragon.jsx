@@ -63,6 +63,8 @@ const Dragon = (props) => {
       0,
       300
     );
+
+    console.log(spineClip);
     actions["Key.001Action.001"]._clip = spineClip;
 
     const bodyClip = subclip(
@@ -78,12 +80,6 @@ const Dragon = (props) => {
     void actions["Key.001Action.001"].play();
     void actions["Key.002Action"].play();
   }, []);
-
-  const { hairColor, eyesColor, bodyColor } = useControls("dragon", {
-    hairColor: "#ffffff",
-    eyesColor: "yellow",
-    bodyColor: "#ffffff",
-  });
 
   const stencil = useMask(1);
   const stencil2 = useMask(2);
@@ -152,7 +148,6 @@ const Dragon = (props) => {
             name="Bottom_Hair001"
             geometry={nodes.Bottom_Hair001.geometry}
             material={materialNoMask}
-            material-color={hairColor}
             rotation={[-Math.PI / 2, 0, Math.PI / 2]}
             scale={1.86}
           />
@@ -170,7 +165,7 @@ const Dragon = (props) => {
             rotation={[0.3, 0.35, -1.65]}
             scale={0.24}
           >
-            <meshStandardMaterial color={eyesColor} />
+            <moonMaterial uMixColor={"#00c6ff"} />
           </mesh>
           <mesh
             name="Horns001"
@@ -280,7 +275,6 @@ const Dragon = (props) => {
           name="Body"
           geometry={nodes.Body.geometry}
           material={materiaRedMask}
-          material-color={bodyColor}
           morphTargetDictionary={nodes.Body.morphTargetDictionary}
           morphTargetInfluences={nodes.Body.morphTargetInfluences}
         />

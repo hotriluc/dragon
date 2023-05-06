@@ -17,7 +17,7 @@ const Overlay = () => {
       }}
     >
       <p style={{ fontWeight: 200 }}>Ho Tri Luc.</p>
-      <p style={{ fontWeight: 200, alignSelf: "flex-end" }}>dd/mm/yyyy</p>
+      <p style={{ fontWeight: 200, alignSelf: "flex-end" }}>02/05/2023</p>
     </div>
   );
 };
